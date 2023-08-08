@@ -23,7 +23,7 @@
     @apply mb-8
   }
 
-  section {
+  section, h3, p {
     @apply mb-4
   }
 }
