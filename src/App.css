@@ -2,7 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-4xl font-bold;
+  }
+  
+  h2 {
+    @apply text-3xl font-bold;
+  }
+  
+  h3 {
+    @apply text-2xl font-bold;
+  }
+
+  hr {
+    @apply text-gray-700 h-[0.5] w-full
+  }
+
+  div, hr {
+    @apply mb-8
+  }
+
+  section {
+    @apply mb-4
+  }
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0 2em 2em;
 }
 
