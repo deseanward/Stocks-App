@@ -1,3 +1,19 @@
-import tw, { styled } from 'twin.macro'
+import tw, { styled } from 'twin.macro';
 
-export const StockContainer = styled.div``
+export const StockContainer = styled.div`
+	width: 90%;
+	max-width: 900px;
+`;
+
+export const StockContent = styled.section``;
+
+export const InfoSection = styled.section`
+	${tw`
+        flex flex-col
+    `}
+`;
+
+export const StockPerformance = styled.section`
+    display: grid;
+    grid-template-columns: 1fr 1fr
+`

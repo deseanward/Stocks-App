@@ -11,7 +11,7 @@ function App() {
 		<div className='App bg-slate-950 text-white'>
 			<Navigation />
 			<Routes>
-				<Route path='/' element={<Home />} />
+				<Route path='/' element={<Dashboard />} />
 				<Route path='/stocks' element={<Dashboard />} />
 				<Route path='/stocks/:symbol' element={<Stock />} />
 				<Route path='/about' element={<About />} />

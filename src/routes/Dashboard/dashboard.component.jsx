@@ -1,10 +1,21 @@
-import React from 'react'
-import { DashboardContainer } from './dashboard.styles'
+import React, { useState, useEffect } from 'react';
+import { DashboardContainer } from './dashboard.styles';
+
+import stocks from '../../data'
+import StockList from '../../components/stock-list/stock-list.component';
 
 const Dashboard = () => {
-  return (
-    <DashboardContainer><h1>This is the Dashboard</h1></DashboardContainer>
-  )
-}
 
-export default Dashboard
+	useEffect(() => {
+		console.log(stocks)
+	}, []);
+
+	return (
+		<DashboardContainer>
+			<h1>Most Active Stocks</h1>
+      <StockList stocks={stocks} />
+		</DashboardContainer>
+	);
+};
+
+export default Dashboard;
