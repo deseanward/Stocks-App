@@ -9,7 +9,7 @@ export const NavContainer = styled.nav`
 
 export const NavContent = styled.section`
 	${tw`
-        flex justify-around 
+        flex gap-8 justify-end 
         w-[60vw]
         pt-4
     `}
