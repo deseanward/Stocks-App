@@ -1,38 +1,16 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { StockContext } from '../../store/context/stock.context';
 import {
 	StockListContainer,
 	StockListContent,
 	StockListItem,
 } from './stock-list.styles';
 
-const StockList = ({ stocks }) => {
-	// Checks if the change of stock price is positive or negative
-	const posOrNeg = numToCheck => {
-		const number = Number(numToCheck);
-
-		// Determines the text color
-		const result = number > 0 ? 'text-green-900' : 'text-red-900';
-
-		return result;
-	};
-
-	// Converts and formats the 'Price' string value into a number
-	const formatPriceChange = numToFormat => {
-		const number = Number(numToFormat).toFixed(2);
-		return number;
-	};
-
-	// Determin and format the percentage of change
-	const formatPercentage = stock => {
-		const open = Number(stock.open);
-		const last = Number(stock.lastPrice);
-
-		const f = (last / open) * 100;
-		const p = 100 - f;
-
-		return p.toFixed(2);
-	};
+const StockList = () => {
+	const { stockData, formatPriceChange, formatPercentage, posOrNeg } =
+		useContext(StockContext);
+	let location = useLocation();
 
 	return (
 		<StockListContainer>
@@ -49,9 +27,10 @@ const StockList = ({ stocks }) => {
 					<h3>Change</h3>
 				</span>
 			</StockListContent>
-			{stocks ? (
-				stocks.map(stock => {
+			{stockData ? (
+				stockData.map(stock => {
 					const url = `/stocks/${stock.symbol}`;
+
 					return (
 						<Link key={stock.symbol} to={url}>
 							<StockListItem>

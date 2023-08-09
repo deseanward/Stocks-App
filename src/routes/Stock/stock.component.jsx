@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { StockContext } from '../../store/context/stock.context';
 import {
 	StockContainer,
 	StockContent,
@@ -8,33 +9,40 @@ import {
 	AboutSection,
 } from './stock.styles';
 
-import stocks from '../../data';
-
 const Stock = () => {
+	const { stockData, formatPriceChange, formatPercentage, posOrNeg } =
+		useContext(StockContext);
 	const { symbol } = useParams();
-	const currentStock = stocks.find(stock => stock.symbol === symbol);
-	console.log(currentStock);
+
+	const theStock = stockData.filter(stock => stock.symbol === symbol);
+
 	return (
 		<StockContainer>
 			<h1>
-				{currentStock.name} ({currentStock.symbol})
+				{theStock[0].name} ({theStock[0].symbol})
 			</h1>
 			<StockContent>
 				<StockPerformance>
 					<InfoSection>
-						<span>Open: {currentStock.open}</span>
-						<span>Last Price: {currentStock.lastPrice}</span>
-						<span>Change: {(currentStock.change).toFixed(2)}</span>
+						<span>Open: {theStock[0].open}</span>
+						<span>Last Price: {theStock[0].lastPrice}</span>
+						<span>
+							Change:{' '}
+							<span className={posOrNeg(theStock[0].change)}>
+								{formatPriceChange(theStock[0].change)} (
+								{formatPercentage(theStock[0])}%)
+							</span>
+						</span>
 					</InfoSection>
 
 					<InfoSection>
-						<span>High: {currentStock.high}</span>
-						<span>Low: {currentStock.low}</span>
+						<span>High: {theStock[0].high}</span>
+						<span>Low: {theStock[0].low}</span>
 					</InfoSection>
 				</StockPerformance>
 
 				<AboutSection>
-					<h3>About {currentStock.name}</h3>
+					<h3>About {theStock[0].name}</h3>
 
 					<p>
 						Lorem ipsum dolor sit amet consectetur, adipisicing

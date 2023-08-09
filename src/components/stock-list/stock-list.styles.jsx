@@ -13,5 +13,5 @@ export const StockListItem = styled.li`
 	border-top: 1px solid gray;
 	padding: 1em;
 
-	${tw`hover:bg-blue-200 hover:text-slate-800`}
+	${tw`hover:bg-blue-100 hover:text-slate-800 hover:font-bold`}
 `;

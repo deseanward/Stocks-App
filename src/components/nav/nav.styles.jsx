@@ -17,4 +17,8 @@ export const NavContent = styled.section`
 
 export const StyledLink = styled(Link)`
 	${tw`hover:bg-blue-200 hover:text-slate-800 p-2 rounded-md`}
+
+	.hover-line {
+		border-top: 2px solid white;
+	}
 `;
