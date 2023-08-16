@@ -7,7 +7,7 @@ const Navigation = () => {
 		<NavContainer>
 			<NavContent>
 				<NavTitle>
-					<h2>Simply Stocks</h2>
+					<h2>Per Scholas Picks</h2>
 					<span>Powered by De Sean Ward</span>
 				</NavTitle>
 				<NavButton to='/'>Home</NavButton>

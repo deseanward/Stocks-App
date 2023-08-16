@@ -19,14 +19,13 @@ export const StockContext = createContext({
 
 export const StockProvider = ({ children }) => {
 	// Holds the data returned for local storage saving
-	const stocks = [];
-	const profiles = [];
-	const news = [];
+	const theStocks = [];
+	const theProfiles = [];
+	const theNews = [];
 
 	const [allStocks, setAllStocks] = useState(
 		JSON.parse(localStorage.getItem('allStocks'))
 	);
-
 	const [stockProfiles, setStockProfiles] = useState(
 		JSON.parse(localStorage.getItem('stockProfiles'))
 	);
@@ -90,6 +89,7 @@ export const StockProvider = ({ children }) => {
 
 	useEffect(() => {
 		const fetchStock = async () => {
+			console.log('INSIDE USE EFFECT');
 			try {
 				let symbol;
 				for (let x = 0; x < stocks.length; x++) {
@@ -97,33 +97,31 @@ export const StockProvider = ({ children }) => {
 					const data = await fetchStocks(
 						`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey}`
 					);
-
-					!stocks[x] && stocks.push(data[0]);
+					console.log(data);
+					!theStocks[x] && theStocks.push(data[0]);
+				setAllStocks(theStocks);
 					localStorage.setItem(
 						'allStocks',
-						JSON.stringify(allStocks)
+						JSON.stringify(theStocks)
 					);
 					const profile = await fetchStocks(
 						`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`
 					);
-					!profiles[x] && profiles.push(profile[0]);
+					!theProfiles[x] && theProfiles.push(profile[0]);
+				setStockProfiles(theProfiles);
 					localStorage.setItem(
 						'stockProfiles',
-						JSON.stringify(stockProfiles)
+						JSON.stringify(theProfiles)
 					);
-					// data && setStocks(data);
-					// console.log(allStocks);
+			
 				}
 				const news = await fetchStocks(
 					`https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=5&apikey=${apiKey}`
 				);
 
-				stockNews.push(news);
-				localStorage.setItem('stockNews', JSON.stringify(stockNews));
-
-				console.log(allStocks);
-				console.log(stockProfiles);
-				console.log(stockNews);
+				theNews.push(news);
+				setStockNews(theNews);
+				localStorage.setItem('stockNews', JSON.stringify(theNews));
 			} catch (error) {
 				console.log(error);
 			}
@@ -131,7 +129,6 @@ export const StockProvider = ({ children }) => {
 		fetchStock();
 	}, []);
 
-	
 	return (
 		<StockContext.Provider value={values}>{children}</StockContext.Provider>
 	);
