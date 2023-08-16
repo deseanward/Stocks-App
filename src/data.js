@@ -27,8 +27,8 @@ const stocks = [
 		open: 842,
 	},
 	{
-		name: 'Facebook, Inc.',
-		symbol: 'FB',
+		name: 'Meta, Inc.',
+		symbol: 'META',
 		lastPrice: 140.34,
 		change: 0.810000000000002,
 		high: 141.0244,

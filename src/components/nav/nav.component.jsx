@@ -1,16 +1,18 @@
 import React from 'react';
-import { NavContainer, NavContent, StyledLink } from './nav.styles';
+import { NavButton } from '../styled-link/styled-link.component';
+import { NavContainer, NavContent, NavTitle } from './nav.styles';
 
 const Navigation = () => {
 	return (
 		<NavContainer>
 			<NavContent>
-                <StyledLink to='/'>
-                    Home
-                </StyledLink>
-				<StyledLink to='/about'>About</StyledLink>
+				<NavTitle>
+					<h2>Simply Stocks</h2>
+					<span>Powered by De Sean Ward</span>
+				</NavTitle>
+				<NavButton to='/'>Home</NavButton>
+				<NavButton to='/about'>About</NavButton>
 			</NavContent>
-			<hr />
 		</NavContainer>
 	);
 };

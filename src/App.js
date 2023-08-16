@@ -6,16 +6,22 @@ import Dashboard from './routes/Dashboard/dashboard.component';
 import Home from './routes/Home/home.component';
 import Stock from './routes/Stock/stock.component';
 
+import { AnimatePresence } from 'framer-motion';
+import StickerMarkee from './components/sticker-markee/sticker-markee.component';
+
 function App() {
 	return (
-		<div className='App bg-slate-950 text-white'>
+		<div className='App h-full'>
 			<Navigation />
-			<Routes>
-				<Route path='/' element={<Dashboard />} />
-				<Route path='/stocks' element={<Dashboard />} />
-				<Route path='/stocks/:symbol' element={<Stock />} />
-				<Route path='/about' element={<About />} />
-			</Routes>
+			<StickerMarkee />
+			<AnimatePresence>
+				<Routes>
+					<Route path='/' element={<Dashboard />} />
+					<Route path='/stocks' element={<Dashboard />} />
+					<Route path='/stocks/:symbol' element={<Stock />} />
+					<Route path='/about' element={<About />} />
+				</Routes>
+			</AnimatePresence>
 		</div>
 	);
 }
