@@ -9,7 +9,7 @@ export const StockListHeader = styled.section`
 	padding: 0 0.5em;
 `;
 
-export const Stocks = styled.section`
+export const StocksList = styled.section`
 	:hover .stock {
 		filter: blur(0.175rem);
 	}
