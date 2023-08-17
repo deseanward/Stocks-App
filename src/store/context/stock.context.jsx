@@ -21,19 +21,19 @@ export const StockContext = createContext({
 
 export const StockProvider = ({ children }) => {
 	// Holds the data returned for setting state
-	// const theStocks = [];
-	// const theProfiles = [];
-	// const theNews = [];
+	const theStocks = [];
+	const theProfiles = [];
+	const theNews = [];
 
-	// Uncomment for testing with data saved in local storage
-	const theStocks = JSON.parse(localStorage.getItem('allStocks'));
-	const theProfiles = JSON.parse(localStorage.getItem('stockProfiles'));
-	const theNews = JSON.parse(localStorage.getItem('stockNews'));
+	// Uncomment for accesing data saved in local storage
+	const myStocks = JSON.parse(localStorage.getItem('allStocks'));
+	const myProfiles = JSON.parse(localStorage.getItem('stockProfiles'));
+	const myNews = JSON.parse(localStorage.getItem('stockNews'));
 
 	// Sets the state according to the returned data
-	const [allStocks, setAllStocks] = useState(theStocks);
-	const [stockProfiles, setStockProfiles] = useState(theProfiles);
-	const [stockNews, setStockNews] = useState(theNews);
+	const [allStocks, setAllStocks] = useState(myStocks);
+	const [stockProfiles, setStockProfiles] = useState(myProfiles);
+	const [stockNews, setStockNews] = useState(myNews);
 
 	// Stock Reducer
 	const [stockData, dispatchStock] = useReducer(stockReducer, allStocks);
@@ -93,40 +93,40 @@ export const StockProvider = ({ children }) => {
 	useEffect(() => {
 		//localStorage.clear()
 		const fetchStock = async () => {
-			// try {
-			// 	let symbol;
-			// 	console.log('STOCKS: ', stocks)
-			// 	for (let x = 0; x < stocks.length; x++) {
-			// 		symbol = stocks[x].symbol;
-			// 		const data = await fetchStocks(
-			// 			`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey}`
-			// 		);
-			// 		console.log(data);
-			// 		!theStocks[x] && theStocks.push(data[0]);
-			// 	setAllStocks(theStocks);
-			// 		localStorage.setItem(
-			// 			'allStocks',
-			// 			JSON.stringify(theStocks)
-			// 		);
-			// 		const profile = await fetchStocks(
-			// 			`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`
-			// 		);
-			// 		!theProfiles[x] && theProfiles.push(profile[0]);
-			// 	setStockProfiles(theProfiles);
-			// 		localStorage.setItem(
-			// 			'stockProfiles',
-			// 			JSON.stringify(theProfiles)
-			// 		);
-			// 	}
-			// 	const news = await fetchStocks(
-			// 		`https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=5&apikey=${apiKey}`
-			// 	);
-			// 	theNews.push(news);
-			// 	setStockNews(theNews);
-			// 	localStorage.setItem('stockNews', JSON.stringify(theNews));
-			// } catch (error) {
-			// 	console.log(error);
-			// }
+			try {
+				let symbol;
+				console.log('STOCKS: ', stocks)
+				for (let x = 0; x < stocks.length; x++) {
+					symbol = stocks[x].symbol;
+					const data = await fetchStocks(
+						`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey}`
+					);
+					console.log(data);
+					!theStocks[x] && theStocks.push(data[0]);
+				setAllStocks(theStocks);
+					localStorage.setItem(
+						'allStocks',
+						JSON.stringify(theStocks)
+					);
+					const profile = await fetchStocks(
+						`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`
+					);
+					!theProfiles[x] && theProfiles.push(profile[0]);
+				setStockProfiles(theProfiles);
+					localStorage.setItem(
+						'stockProfiles',
+						JSON.stringify(theProfiles)
+					);
+				}
+				const news = await fetchStocks(
+					`https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=5&apikey=${apiKey}`
+				);
+				theNews.push(news);
+				setStockNews(theNews);
+				localStorage.setItem('stockNews', JSON.stringify(theNews));
+			} catch (error) {
+				console.log(error);
+			}
 		};
 		fetchStock();
 	}, []);
