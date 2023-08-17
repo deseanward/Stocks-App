@@ -28,9 +28,6 @@ const Stock = () => {
 
 	const theProfile = profileData.filter(profile => profile.symbol === symbol);
 
-	console.log(theStock);
-	console.log(theProfile);
-
 	const variants = {
 		hidden: { opacity: 0.1 },
 		visible: { opacity: 1, transition: { duration: 0.5 } },

@@ -1,12 +1,16 @@
-import tw, {styled} from 'twin.macro'
+import tw, { styled } from 'twin.macro';
 
 export const StockNewsContainer = styled.div`
-    ${tw`
+	${tw`
     w-full
     h-full
-
     `}
 
-    border: 1px solid gray;
-    border-radius: 0.25em;
+	border: 1px solid gray;
+	border-radius: 0.25em;
+    margin-right: 2em;
+`;
+
+export const NewsItemContainer = styled.section`
+
 `

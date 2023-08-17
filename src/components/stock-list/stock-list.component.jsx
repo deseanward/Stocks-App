@@ -44,7 +44,7 @@ const StockList = () => {
 				</span>
 			</StockListHeader>
 			<Stocks>
-				{stockData ? (
+				{stockData.length ? (
 					stockData.map(stock => {
 						const url = `/stocks/${stock.symbol}`;
 

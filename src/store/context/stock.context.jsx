@@ -10,6 +10,8 @@ import { profileReducer } from '../reducer/profile.reducer';
 
 export const StockContext = createContext({
 	stockData: null,
+	profileData: null,
+	newsData: null,
 	dispatchStock: () => {},
 	dispatchProfile: () => {},
 	formatPriceChange: () => {},
@@ -18,27 +20,27 @@ export const StockContext = createContext({
 });
 
 export const StockProvider = ({ children }) => {
-	// Holds the data returned for local storage saving
-	const theStocks = [];
-	const theProfiles = [];
-	const theNews = [];
+	// Holds the data returned for setting state
+	// const theStocks = [];
+	// const theProfiles = [];
+	// const theNews = [];
 
-	const [allStocks, setAllStocks] = useState(
-		JSON.parse(localStorage.getItem('allStocks'))
-	);
-	const [stockProfiles, setStockProfiles] = useState(
-		JSON.parse(localStorage.getItem('stockProfiles'))
-	);
+	// Uncomment for testing with data saved in local storage
+	const theStocks = JSON.parse(localStorage.getItem('allStocks'))
+	const theProfiles = JSON.parse(localStorage.getItem('stockProfiles'));
+	const theNews = JSON.parse(localStorage.getItem('stockNews'));
 
-	const [stockNews, setStockNews] = useState(
-		JSON.parse(localStorage.getItem('stockNews'))
-	);
+	// Sets the state according to the returned data
+	const [allStocks, setAllStocks] = useState(theStocks);
+	const [stockProfiles, setStockProfiles] = useState(theProfiles);
+	const [stockNews, setStockNews] = useState(theNews);
 
 	// Stock Reducer
 	const [stockData, dispatchStock] = useReducer(stockReducer, allStocks);
 
 	// News Reducer
 	const [newsData, dispatchNews] = useReducer(newsReducer, stockNews);
+	newsData.forEach(news => news.content.forEach(story => console.log(story)))
 
 	// Stock Profile Reducer
 	const [profileData, dispatchProfile] = useReducer(
@@ -46,8 +48,7 @@ export const StockProvider = ({ children }) => {
 		stockProfiles
 	);
 
-	// const apiKey = process.env.REACT_APP_STOCKS_API_KEY;
-	const apiKey = '75d989687bc9431648c55142c47e01c5';
+	const apiKey = process.env.REACT_APP_STOCKS_API_KEY;
 
 	// Converts and formats the 'Price' string value into a number
 	const formatPriceChange = numToFormat => {
@@ -82,49 +83,51 @@ export const StockProvider = ({ children }) => {
 	const values = {
 		stockData,
 		profileData,
+		newsData,
 		formatPriceChange,
 		formatPercentage,
 		posOrNeg,
 	};
 
 	useEffect(() => {
+		// localStorage.clear()
 		const fetchStock = async () => {
-			console.log('INSIDE USE EFFECT');
-			try {
-				let symbol;
-				for (let x = 0; x < stocks.length; x++) {
-					symbol = stocks[x].symbol;
-					const data = await fetchStocks(
-						`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey}`
-					);
-					console.log(data);
-					!theStocks[x] && theStocks.push(data[0]);
-				setAllStocks(theStocks);
-					localStorage.setItem(
-						'allStocks',
-						JSON.stringify(theStocks)
-					);
-					const profile = await fetchStocks(
-						`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`
-					);
-					!theProfiles[x] && theProfiles.push(profile[0]);
-				setStockProfiles(theProfiles);
-					localStorage.setItem(
-						'stockProfiles',
-						JSON.stringify(theProfiles)
-					);
+			// try {
+			// 	let symbol;
+			// 	console.log('STOCKS: ', stocks)
+			// 	for (let x = 0; x < stocks.length; x++) {
+			// 		symbol = stocks[x].symbol;
+			// 		const data = await fetchStocks(
+			// 			`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey}`
+			// 		);
+			// 		console.log(data);
+			// 		!theStocks[x] && theStocks.push(data[0]);
+			// 	setAllStocks(theStocks);
+			// 		//localStorage.setItem(
+			// 		//	'allStocks',
+			// 			JSON.stringify(theStocks)
+			// 		//);
+			// 		const profile = await fetchStocks(
+			// 			`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`
+			// 		);
+			// 		!theProfiles[x] && theProfiles.push(profile[0]);
+			// 	setStockProfiles(theProfiles);
+			// 		//localStorage.setItem(
+			// 		//	'stockProfiles',
+			// 			JSON.stringify(theProfiles)
+			// 		//);
 			
-				}
-				const news = await fetchStocks(
-					`https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=5&apikey=${apiKey}`
-				);
+			// 	}
+			// 	const news = await fetchStocks(
+			// 		`https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=5&apikey=${apiKey}`
+			// 	);
 
-				theNews.push(news);
-				setStockNews(theNews);
-				localStorage.setItem('stockNews', JSON.stringify(theNews));
-			} catch (error) {
-				console.log(error);
-			}
+			// 	theNews.push(news);
+			// 	setStockNews(theNews);
+			// //	localStorage.setItem('stockNews', JSON.stringify(theNews));
+			// } catch (error) {
+			// 	console.log(error);
+			// }
 		};
 		fetchStock();
 	}, []);

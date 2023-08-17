@@ -16,7 +16,7 @@ function App() {
 			<StickerMarkee />
 			<AnimatePresence>
 				<Routes>
-					<Route path='/' element={<Dashboard />} />
+					<Route path='/' element={<Home />} />
 					<Route path='/stocks' element={<Dashboard />} />
 					<Route path='/stocks/:symbol' element={<Stock />} />
 					<Route path='/about' element={<About />} />
