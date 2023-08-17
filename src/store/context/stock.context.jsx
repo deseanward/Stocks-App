@@ -128,7 +128,7 @@ export const StockProvider = ({ children }) => {
 				console.log(error);
 			}
 		};
-		fetchStock();
+		if (!localStorage.getItem('allStocks')) fetchStock();
 	}, []);
 
 	return (
