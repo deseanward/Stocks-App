@@ -26,7 +26,7 @@ export const StockProvider = ({ children }) => {
 	// const theNews = [];
 
 	// Uncomment for testing with data saved in local storage
-	const theStocks = JSON.parse(localStorage.getItem('allStocks'))
+	const theStocks = JSON.parse(localStorage.getItem('allStocks'));
 	const theProfiles = JSON.parse(localStorage.getItem('stockProfiles'));
 	const theNews = JSON.parse(localStorage.getItem('stockNews'));
 
@@ -40,7 +40,7 @@ export const StockProvider = ({ children }) => {
 
 	// News Reducer
 	const [newsData, dispatchNews] = useReducer(newsReducer, stockNews);
-	newsData.forEach(news => news.content.forEach(story => console.log(story)))
+	// newsData.forEach(news => news.content.forEach(story => console.log(story)));
 
 	// Stock Profile Reducer
 	const [profileData, dispatchProfile] = useReducer(
@@ -48,7 +48,8 @@ export const StockProvider = ({ children }) => {
 		stockProfiles
 	);
 
-	const apiKey = process.env.REACT_APP_STOCKS_API_KEY;
+	// const apiKey = process.env.REACT_APP_STOCKS_API_KEY;
+	const apiKey = '75d989687bc9431648c55142c47e01c5';
 
 	// Converts and formats the 'Price' string value into a number
 	const formatPriceChange = numToFormat => {
@@ -90,7 +91,7 @@ export const StockProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		// localStorage.clear()
+		//localStorage.clear()
 		const fetchStock = async () => {
 			// try {
 			// 	let symbol;
@@ -103,28 +104,26 @@ export const StockProvider = ({ children }) => {
 			// 		console.log(data);
 			// 		!theStocks[x] && theStocks.push(data[0]);
 			// 	setAllStocks(theStocks);
-			// 		//localStorage.setItem(
-			// 		//	'allStocks',
+			// 		localStorage.setItem(
+			// 			'allStocks',
 			// 			JSON.stringify(theStocks)
-			// 		//);
+			// 		);
 			// 		const profile = await fetchStocks(
 			// 			`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`
 			// 		);
 			// 		!theProfiles[x] && theProfiles.push(profile[0]);
 			// 	setStockProfiles(theProfiles);
-			// 		//localStorage.setItem(
-			// 		//	'stockProfiles',
+			// 		localStorage.setItem(
+			// 			'stockProfiles',
 			// 			JSON.stringify(theProfiles)
-			// 		//);
-			
+			// 		);
 			// 	}
 			// 	const news = await fetchStocks(
 			// 		`https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=5&apikey=${apiKey}`
 			// 	);
-
 			// 	theNews.push(news);
 			// 	setStockNews(theNews);
-			// //	localStorage.setItem('stockNews', JSON.stringify(theNews));
+			// 	localStorage.setItem('stockNews', JSON.stringify(theNews));
 			// } catch (error) {
 			// 	console.log(error);
 			// }

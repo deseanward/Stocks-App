@@ -8,21 +8,22 @@ const StockNews = () => {
 	const { newsData } = useContext(StockContext);
 
 	return (
-		<StockNewsContainer>
-			<h2 className='bg-[tan] p-2'>Trending</h2>
-            {
-                newsData
-                    ? newsData.forEach(news =>
-                        news.content.map(story => {
-                            return (
-                                <NewsItemContainer>
-                                    <h3>{story.title}</h3>
-                                </NewsItemContainer>
-                            );
-                }))
-                : <h3>Loading...</h3>
-        }
-		</StockNewsContainer>
+		<div className=''>
+			<h2 className='heading bg-[tan] p-2'>Trending</h2>
+			<StockNewsContainer>
+				<div className='content'>
+					{newsData ? (
+						newsData.map(news => {
+							return news.content.map((story, idx) => (
+								<div key={idx}>{story.title}</div>
+							));
+						})
+					) : (
+						<h3>Loading...</h3>
+					)}
+				</div>
+			</StockNewsContainer>
+		</div>
 	);
 };
 
