@@ -10,7 +10,7 @@ import { StockNewsContainer, NewsItemContainer } from "./stock-news.styles";
 const StockNews = () => {
   const { stockNews } = useContext(StockContext);
 
-  console.log('INSIDE STOCK NEWS: ', stockNews)
+  console.log("INSIDE STOCK NEWS: ", stockNews);
 
   return (
     <div className=''>
@@ -18,8 +18,8 @@ const StockNews = () => {
       <StockNewsContainer>
         <div className='content'>
           {stockNews && stockNews.length ? (
-            stockNews.map((story, idx) => (
-              <Link key={idx} to={story.url} target='blank'>
+            stockNews.map((story) => (
+              <Link key={story.title} to={story.url} target='blank'>
                 <NewsItemContainer className='text-sm hover:text-[tan]'>
                   <span className='text-sm'>{story.title}</span>{" "}
                   <span>
