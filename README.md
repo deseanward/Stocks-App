@@ -1,5 +1,5 @@
 # Stocks App
 
-![stock-app-1](https://github.com/deseanward/Stocks-App/assets/139034534/70ec30bd-f13e-4544-bb76-e9a0bcf457bb)
+<img width="960" alt="ps-picks-1" src="https://github.com/deseanward/Stocks-App/assets/139034534/cd14da38-f600-4d96-9cbd-90603378a9cd">
 
-![stock-app-2](https://github.com/deseanward/Stocks-App/assets/66344466/3a23b455-85b6-4624-9cbd-99d4371e0da9)
+<img width="960" alt="ps-picks2" src="https://github.com/deseanward/Stocks-App/assets/139034534/23d3de5c-60eb-4275-9cec-fce395d9a69a">
