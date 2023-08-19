@@ -17,7 +17,7 @@ const StockNews = () => {
       <h3 className='header rounded-lg heading bg-[#3DBB9A] p-2'>Trending</h3>
       <StockNewsContainer>
         <div className='content'>
-          {stockNews ? (
+          {stockNews && stockNews.length ? (
             stockNews.map((story, idx) => (
               <Link key={idx} to={story.url} target='blank'>
                 <NewsItemContainer className='text-sm hover:text-[tan]'>

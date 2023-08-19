@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   BackButton,
   NavButton,
@@ -85,7 +85,7 @@ const Stock = () => {
             </p>
           </InfoSection>
 
-          <InfoSection variants={inFromLeft} initial='hidden' animate='visible'>
+          <InfoSection className='mr-8' variants={inFromLeft} initial='hidden' animate='visible'>
             <span>Open: {theStock.open.toFixed(2)}</span>
             <span>Last Price: {theStock.previousClose.toFixed(2)}</span>
             <span>
@@ -99,6 +99,7 @@ const Stock = () => {
           </InfoSection>
 
           <InfoSection
+            className='left-16'
             variants={inFromRight}
             initial='hidden'
             animate='visible'
@@ -115,10 +116,10 @@ const Stock = () => {
           animate='visible'
           exit='hidden'
         >
-          <h3 className='text-[#7C7E80] mb-0'>About {theStock.name}</h3>
-          <NavButton to={theProfile.website} target='_blank'>
+          <h3 className='text-left mb-[0.5em] text-[#7C7E80]'>About {theStock.name}</h3>
+          <Link className="hover:text-[tan] mb-8" to={theProfile.website} target='_blank'>
             {theProfile.website}
-          </NavButton>
+          </Link>
           {theProfile.description}
         </AboutSection>
 

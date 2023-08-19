@@ -5,7 +5,7 @@ import {
   StockListContainer,
   StockListHeader,
   StockListItem,
-  StocksList,
+  StocksListing,
 } from "./stock-list.styles";
 
 const StockList = () => {
@@ -32,7 +32,7 @@ const StockList = () => {
       exit='hidden'
     >
       <StockListHeader>
-        <span className="justify-self-start">
+        <span className='justify-self-start'>
           <h3>Company</h3>
         </span>
 
@@ -44,12 +44,12 @@ const StockList = () => {
           <h3 className='text-right'>Change</h3>
         </span>
       </StockListHeader>
-      <StocksList>
-        {allStocks.length ? (
+      <StocksListing>
+        {allStocks && allStocks.length ? (
           allStocks.map((stocks) => {
             const stock = stocks[0];
             const url = `/stocks/${stock.symbol}`;
-            
+
             return (
               <Link key={stock.symbol} to={url}>
                 <StockListItem
@@ -75,7 +75,7 @@ const StockList = () => {
         ) : (
           <h2>Loading Stocks...</h2>
         )}
-      </StocksList>
+      </StocksListing>
     </StockListContainer>
   );
 };

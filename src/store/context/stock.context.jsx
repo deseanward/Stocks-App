@@ -27,18 +27,18 @@ export const StockProvider = ({ children }) => {
   const [parsedProfiles, setParsedProfiles] = useState([]);
 
   // For accessing  data saved in local storage
-  const localStocks = JSON.parse(localStorage.getItem("allStocks"));
+  const localStocks = JSON.parse(sessionStorage.getItem("allStocks"));
 
-  const localProfile = JSON.parse(localStorage.getItem("stockProfiles"));
+  const localProfile = JSON.parse(sessionStorage.getItem("stockProfiles"));
 
-  const localNews = JSON.parse(localStorage.getItem("stockNews"));
+  const localNews = JSON.parse(sessionStorage.getItem("stockNews"));
 
   const [allStocks, setAllStocks] = useState(localStocks);
   const [stockProfiles, setStockProfiles] = useState(localProfile);
   const [stockNews, setStockNews] = useState(localNews);
 
 
-  const apiKey2 = process.env.REACT_APP_STOCK_API_KEY
+  const apiKey2 = process.env.REACT_APP_STOCKS_API_KEY
 
   // API Key for News
   const newsApiKey = process.env.REACT_APP_STOCKS_NEWS_API_KEY;
@@ -90,7 +90,7 @@ export const StockProvider = ({ children }) => {
       }
       console.log(fetchedStocks);
       setAllStocks(fetchedStocks);
-      localStorage.setItem("allStocks", JSON.stringify(fetchedStocks));
+      sessionStorage.setItem("allStocks", JSON.stringify(fetchedStocks));
 
     } catch (error) {
       console.log("ERROR FETCHING STOCKS: ", error);
@@ -115,7 +115,7 @@ export const StockProvider = ({ children }) => {
       }
 
       setStockProfiles(profiles);
-      localStorage.setItem("stockProfiles", JSON.stringify(profiles));
+      sessionStorage.setItem("stockProfiles", JSON.stringify(profiles));
     } catch (error) {
       console.log("ERROR FETCHING PROFILES: ", error);
     }
@@ -137,7 +137,7 @@ export const StockProvider = ({ children }) => {
 
         theNews.push(news);
         setStockNews(news);
-        localStorage.setItem("stockNews", JSON.stringify(news));
+        sessionStorage.setItem("stockNews", JSON.stringify(news));
         return news;
       }
     } catch (error) {
@@ -148,8 +148,8 @@ export const StockProvider = ({ children }) => {
   useEffect(() => {
     const getData = async () => {
       // Get the Stocks
-      if (localStorage.getItem("allStocks")) {
-        const gotStocks = JSON.parse(localStorage.getItem("allStocks"));
+      if (sessionStorage.getItem("allStocks")) {
+        const gotStocks = JSON.parse(sessionStorage.getItem("allStocks"));
         !allStocks && setAllStocks(gotStocks);
         console.log("ALL STOCKS FROM USE EFFECT: ", allStocks);
       } else {
@@ -158,22 +158,21 @@ export const StockProvider = ({ children }) => {
       }
 
       // Get the Profiles
-      if (localStorage.getItem("stockProfiles")) {
-        const gotProfiles = JSON.parse(localStorage.getItem("stockProfiles"));
+      if (sessionStorage.getItem("stockProfiles")) {
+        const gotProfiles = JSON.parse(sessionStorage.getItem("stockProfiles"));
         !stockProfiles && stockProfiles.push(gotProfiles);
         console.log("ALL PROFILES FROM  USE EFFECT: ", stockProfiles);
       } else !stockProfiles && fetchTheProfiles();
 
-      if (localStorage.getItem("stockNews")) {
-        const gotNews = JSON.parse(localStorage.getItem("stockNews"));
+      if (sessionStorage.getItem("stockNews")) {
+        const gotNews = JSON.parse(sessionStorage.getItem("stockNews"));
         console.log("GOT THE NEWS: ", gotNews);
         !stockNews && stockNews.push(gotNews);
       } else !stockNews && fetchTheNews();
 
-      // fetchTheNews()
     };
 
-    // getData();
+    getData();
   }, []);
 
   const values = {
