@@ -28,16 +28,12 @@ export const StockProvider = ({ children }) => {
 
   // For accessing  data saved in local storage
   const localStocks = JSON.parse(localStorage.getItem("allStocks"));
-  console.log("SESSION STOCKS: ", localStocks);
 
   const localProfile = JSON.parse(localStorage.getItem("stockProfiles"));
-  console.log("SESSION PROFILES: ", localProfile);
 
   const localNews = JSON.parse(localStorage.getItem("stockNews"));
-  console.log("SESSION NEWS: ", localNews);
 
   const [allStocks, setAllStocks] = useState(localStocks);
-  console.log("ALL STOCKS: ", allStocks);
   const [stockProfiles, setStockProfiles] = useState(localProfile);
   const [stockNews, setStockNews] = useState(localNews);
 
