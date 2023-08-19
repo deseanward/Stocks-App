@@ -1,9 +1,11 @@
-export const fetchStocks = async (req, res) => {
-	try {
-		res = await fetch(req);
-		const data = await res.json();
-		return data;
-	} catch (error) {
-		console.log('Error fetching stocks: ', error);
-	}
+export const fetchStocks = async (req) => {
+  const url = req;
+  try {
+    const response = await fetch(url);
+    const result = await response.json();
+    // console.log(result);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
 };

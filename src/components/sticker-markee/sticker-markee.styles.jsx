@@ -4,7 +4,7 @@ export const StickerMarkeeContainer = styled.div`
 	${tw`
     flex items-center
 	w-[60vw]
-    text-black
+    text-white
     p-2
 	mt-4
   `}

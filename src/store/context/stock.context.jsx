@@ -1,137 +1,198 @@
-import { createContext, useReducer, useState, useEffect } from 'react';
+import { createContext, useEffect, useState } from "react";
 
 // Import the api call
-import { fetchStocks } from '../../api/stocks.api';
+import { fetchStocks } from "../../api/stocks.api";
+import { fetchProfile } from "../../api/profile.api";
+import { fetchNews } from "../../api/news.api";
 
-import stocks from '../../data';
-import { stockReducer } from '../reducer/stock.reducer';
-import { newsReducer } from '../reducer/news.reducer';
-import { profileReducer } from '../reducer/profile.reducer';
+import stocks from "../../data";
 
 export const StockContext = createContext({
-	stockData: null,
-	profileData: null,
-	newsData: null,
-	dispatchStock: () => {},
-	dispatchProfile: () => {},
-	formatPriceChange: () => {},
-	formatPercentage: () => {},
-	posOrNeg: () => {},
+  allStocks: [],
+  stockProfiles: [],
+  stockNews: [],
+  parsedStocks: [],
+  parsedProfiles: [],
+  parseStock: () => {},
+  parseProfile: () => {},
+  dispatchStocks: () => {},
+  formatPriceChange: () => {},
+  formatPercentage: () => {},
+  posOrNeg: () => {},
+  fetchTheNews: () => {},
 });
 
 export const StockProvider = ({ children }) => {
-	// Holds the data returned for setting state
-	const theStocks = [];
-	const theProfiles = [];
-	const theNews = [];
+  const [parsedStocks, setParsedStocks] = useState([]);
+  const [parsedProfiles, setParsedProfiles] = useState([]);
 
-	// Uncomment for accesing data saved in local storage
-	const myStocks = JSON.parse(localStorage.getItem('allStocks'));
-	const myProfiles = JSON.parse(localStorage.getItem('stockProfiles'));
-	const myNews = JSON.parse(localStorage.getItem('stockNews'));
+  // For accessing  data saved in local storage
+  const localStocks = JSON.parse(localStorage.getItem("allStocks"));
+  console.log("SESSION STOCKS: ", localStocks);
 
-	// Sets the state according to the returned data
-	const [allStocks, setAllStocks] = useState(myStocks);
-	const [stockProfiles, setStockProfiles] = useState(myProfiles);
-	const [stockNews, setStockNews] = useState(myNews);
+  const localProfile = JSON.parse(localStorage.getItem("stockProfiles"));
+  console.log("SESSION PROFILES: ", localProfile);
 
-	// Stock Reducer
-	const [stockData, dispatchStock] = useReducer(stockReducer, allStocks);
+  const localNews = JSON.parse(localStorage.getItem("stockNews"));
+  console.log("SESSION NEWS: ", localNews);
 
-	// News Reducer
-	const [newsData, dispatchNews] = useReducer(newsReducer, stockNews);
-	// newsData.forEach(news => news.content.forEach(story => console.log(story)));
+  const [allStocks, setAllStocks] = useState(localStocks);
+  console.log("ALL STOCKS: ", allStocks);
+  const [stockProfiles, setStockProfiles] = useState(localProfile);
+  const [stockNews, setStockNews] = useState(localNews);
 
-	// Stock Profile Reducer
-	const [profileData, dispatchProfile] = useReducer(
-		profileReducer,
-		stockProfiles
-	);
 
-	// const apiKey = process.env.REACT_APP_STOCKS_API_KEY;
-	const apiKey = '75d989687bc9431648c55142c47e01c5';
+  const apiKey2 = process.env.REACT_APP_STOCK_API_KEY
 
-	// Converts and formats the 'Price' string value into a number
-	const formatPriceChange = numToFormat => {
-		const number = Number(numToFormat).toFixed(2);
-		return number;
-	};
+  // API Key for News
+  const newsApiKey = process.env.REACT_APP_STOCKS_NEWS_API_KEY;
 
-	// Determine and format the percentage of change
-	const formatPercentage = stock => {
-		const open = Number(stock.open);
-		const last = Number(stock.lastPrice);
+  // Converts and formats the 'Price' string value into a number
+  const formatPriceChange = (numToFormat) => {
+    const number = Number(numToFormat).toFixed(2);
+    return number;
+  };
 
-		const f = (last / open) * 100;
-		const p = 100 - f;
+  // Determine and format the percentage of change
+  const formatPercentage = (stock) => {
+    const open = Number(stock.open);
+    const last = Number(stock.lastPrice);
 
-		return p.toFixed(2);
-	};
+    const f = (last / open) * 100;
+    const p = 100 - f;
 
-	// Checks if the change of stock price is positive or negative and sets the color
-	const posOrNeg = numToCheck => {
-		const number = Number(numToCheck);
+    return p.toFixed(2);
+  };
 
-		// Determines the text color
-		const result =
-			number > 0
-				? 'text-green-900 text-right'
-				: 'text-red-900 text-right';
+  // Checks if the change of stock price is positive or negative and sets the color
+  const posOrNeg = (numToCheck) => {
+    const number = Number(numToCheck);
 
-		return result;
-	};
+    // Determines the text color
+    const result =
+      number > 0 ? "text-[#3DBB9A] text-right" : "text-[#D9252D] text-right";
 
-	const values = {
-		stockData,
-		profileData,
-		newsData,
-		formatPriceChange,
-		formatPercentage,
-		posOrNeg,
-	};
+    return result;
+  };
 
-	useEffect(() => {
-		//localStorage.clear()
-		const fetchStock = async () => {
-			try {
-				let symbol;
-				console.log('STOCKS: ', stocks)
-				for (let x = 0; x < stocks.length; x++) {
-					symbol = stocks[x].symbol;
-					const data = await fetchStocks(
-						`https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey}`
-					);
-					console.log(data);
-					!theStocks[x] && theStocks.push(data[0]);
-				setAllStocks(theStocks);
-					localStorage.setItem(
-						'allStocks',
-						JSON.stringify(theStocks)
-					);
-					const profile = await fetchStocks(
-						`https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey}`
-					);
-					!theProfiles[x] && theProfiles.push(profile[0]);
-				setStockProfiles(theProfiles);
-					localStorage.setItem(
-						'stockProfiles',
-						JSON.stringify(theProfiles)
-					);
-				}
-				const news = await fetchStocks(
-					`https://financialmodelingprep.com/api/v3/fmp/articles?page=0&size=5&apikey=${apiKey}`
-				);
-				theNews.push(news);
-				setStockNews(theNews);
-				localStorage.setItem('stockNews', JSON.stringify(theNews));
-			} catch (error) {
-				console.log(error);
-			}
-		};
-		if (!localStorage.getItem('allStocks')) fetchStock();
-	}, []);
+  const fetchTheStocks = async () => {
+    console.log("INSIDE FETCH THE STOCKS");
+    const fetchedStocks = [];
 
-	return (
-		<StockContext.Provider value={values}>{children}</StockContext.Provider>
-	);
+    try {
+      let symbol;
+
+      for (let x = 0; x < stocks.length; x++) {
+        symbol = stocks[x].symbol;
+
+        console.log("Attempting Fetch...");
+        let stock = await fetchStocks(
+          `https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey2}`
+        );
+
+        fetchedStocks.push(stock);
+      }
+      console.log(fetchedStocks);
+      setAllStocks(fetchedStocks);
+      localStorage.setItem("allStocks", JSON.stringify(fetchedStocks));
+
+    } catch (error) {
+      console.log("ERROR FETCHING STOCKS: ", error);
+    }
+  };
+
+  const fetchTheProfiles = async () => {
+    console.log("INSIDE FETCH THE PROFILES");
+    const profiles = [];
+
+    try {
+      let symbol;
+
+      for (let x = 0; x < stocks.length; x++) {
+        symbol = stocks[x].symbol;
+
+        // Get the profiles
+        let profile = await fetchStocks(
+          `https://financialmodelingprep.com/api/v3/profile/${symbol}?apikey=${apiKey2}`
+        );
+        profiles.push(profile);
+      }
+
+      setStockProfiles(profiles);
+      localStorage.setItem("stockProfiles", JSON.stringify(profiles));
+    } catch (error) {
+      console.log("ERROR FETCHING PROFILES: ", error);
+    }
+  };
+
+  const fetchTheNews = async () => {
+    const theNews = [];
+
+    try {
+      let symbol;
+
+      for (let x = 0; x < stocks.length; x++) {
+        symbol = stocks[x].symbol;
+
+        // New Stock News API
+        let news = await fetchNews(
+          `https://corsproxy.io/?https://api.profit.com/data-api/fundamentals/media/news?token=${newsApiKey}&symbol=${symbol}&skip=0&limit=10&sort=desc`
+        );
+
+        theNews.push(news);
+        setStockNews(news);
+        localStorage.setItem("stockNews", JSON.stringify(news));
+        return news;
+      }
+    } catch (error) {
+      console.log("ERROR FETCHING NEWS: ", error);
+    }
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      // Get the Stocks
+      if (localStorage.getItem("allStocks")) {
+        const gotStocks = JSON.parse(localStorage.getItem("allStocks"));
+        !allStocks && setAllStocks(gotStocks);
+        console.log("ALL STOCKS FROM USE EFFECT: ", allStocks);
+      } else {
+        console.log("NO local DATA");
+        !allStocks && fetchTheStocks();
+      }
+
+      // Get the Profiles
+      if (localStorage.getItem("stockProfiles")) {
+        const gotProfiles = JSON.parse(localStorage.getItem("stockProfiles"));
+        !stockProfiles && stockProfiles.push(gotProfiles);
+        console.log("ALL PROFILES FROM  USE EFFECT: ", stockProfiles);
+      } else !stockProfiles && fetchTheProfiles();
+
+      if (localStorage.getItem("stockNews")) {
+        const gotNews = JSON.parse(localStorage.getItem("stockNews"));
+        console.log("GOT THE NEWS: ", gotNews);
+        !stockNews && stockNews.push(gotNews);
+      } else !stockNews && fetchTheNews();
+
+      // fetchTheNews()
+    };
+
+    // getData();
+  }, []);
+
+  const values = {
+    allStocks,
+    stockProfiles,
+    stockNews,
+    parsedStocks,
+    parsedProfiles,
+    formatPriceChange,
+    formatPercentage,
+    posOrNeg,
+    fetchTheNews,
+  };
+
+  return (
+    <StockContext.Provider value={values}>{children}</StockContext.Provider>
+  );
 };

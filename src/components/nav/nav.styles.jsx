@@ -1,30 +1,30 @@
-import tw, { styled } from 'twin.macro';
-import { Link } from 'react-router-dom';
+import tw, { styled } from "twin.macro";
 
 export const NavContainer = styled.nav`
-	${tw`
-    w-full
+  ${tw`
+    fixed
+    z-10
+    w-screen
     flex flex-col items-center
-    bg-black text-white
-    mb-0
+    bg-[#0C0F12] text-white
     `}
 `;
 
 export const NavTitle = styled.span`
-	${tw`
+  ${tw`
         flex justify-start gap-2
         w-full
     `}
 
-	span {
-		font-size: smaller;
-	}
+  span {
+    font-size: smaller;
+  }
 `;
 
 export const NavContent = styled.span`
-	${tw`
+  ${tw`
         flex gap-8 justify-end 
-        w-[60vw]
+        w-[80vw]
         pt-4
     `}
 `;

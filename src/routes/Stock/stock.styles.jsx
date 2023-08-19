@@ -1,32 +1,37 @@
-import tw, { styled } from 'twin.macro';
-import { motion } from 'framer-motion';
+import tw, { styled } from "twin.macro";
+import { motion } from "framer-motion";
 
 export const StockContainer = styled(motion.div)`
-	position: relative;
-	width: 90%;
-	max-width: 900px;
+  position: relative;
+  top: 6em;
+  width: 90%;
+  max-width: 900px;
 `;
 
-export const StockContent = styled.section``;
+export const StockContent = styled.section`
+
+`;
 
 export const InfoSection = styled(motion.section)`
-	${tw`
-		relative
-        flex flex-col mb-8
+  ${tw`
+		  relative
+      flex flex-col 
+      mr-8
+      mb-8
+      text-white
     `}
 `;
 
 export const StockPerformance = styled.section`
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
 `;
 
 export const AboutSection = styled(InfoSection)`
-	position: relative;
-	border-top: 1px solid gray;
-	padding-top: 1em;
+  position: relative;
+  border-top: 1px solid gray;
+  padding-top: 1em;
 `;
 
 export const ButtonSection = styled(InfoSection)`
-	position: relative;
+  position: relative;
 `;

@@ -5,12 +5,13 @@ import { StickerMarkeeContainer } from './sticker-markee.styles';
 
 const StickerMarkee = () => {
 	const [markee, setMarkee] = useState('');
-	const { stockData, formatPriceChange, formatPercentage, posOrNeg } =
+	const { allStocks, formatPriceChange, formatPercentage, posOrNeg } =
 		useContext(StockContext);
 
 	useEffect(() => {
 		let stocksMarkee = '';
-		stockData.forEach(stock => {
+		allStocks.forEach(stocks => {
+            const stock = stocks[0]
 			let markeeEl = `${stock.name} (${stock.symbol}): ${stock.price}  |  `;
 			stocksMarkee += markeeEl;
 		});

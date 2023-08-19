@@ -13,6 +13,10 @@ body {
   scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
 
+  color: white;
+  background-color: #13161B;
+
+
    /* --tw-bg-opacity: 1;
     background-color: rgb(2 6 23 / var(--tw-bg-opacity)); */
 }

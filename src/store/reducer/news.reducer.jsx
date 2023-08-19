@@ -1,12 +1,23 @@
-export const newsReducer = (newsData, action) => {
-	const { type, payload } = action;
+// Import the api call
+import { fetchStocks } from "../../api/stocks.api";
 
-	switch (type) {
-		case 'FETCH_NEWS':
-			console.log(newsData);
-			return newsData;
-			break;
-		default:
-			break;
-	}
+const state = [];
+
+export const newsReducer = (newsData, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case "FETCH_NEWS":
+      const fetchData = async () => {
+        const req = await fetchStocks(payload);
+        const res = await req;
+        state.push(res);
+        return state;
+      };
+
+      fetchData();
+      break;
+    default:
+      break;
+  }
 };

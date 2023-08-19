@@ -1,140 +1,133 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
 import {
-	BackButton,
-	NavButton,
-} from '../../components/styled-link/styled-link.component';
-import { StockContext } from '../../store/context/stock.context';
+  BackButton,
+  NavButton,
+} from "../../components/styled-link/styled-link.component";
+import { StockContext } from "../../store/context/stock.context";
 import {
-	StockContainer,
-	StockContent,
-	InfoSection,
-	StockPerformance,
-	AboutSection,
-	ButtonSection,
-} from './stock.styles';
+  StockContainer,
+  StockContent,
+  InfoSection,
+  StockPerformance,
+  AboutSection,
+  ButtonSection,
+} from "./stock.styles";
 
 const Stock = () => {
-	const {
-		stockData,
-		profileData,
-		formatPriceChange,
-		formatPercentage,
-		posOrNeg,
-	} = useContext(StockContext);
-	const { symbol } = useParams();
+  const { allStocks, stockProfiles, posOrNeg } = useContext(StockContext);
 
-	const theStock = stockData.filter(stock => stock.symbol === symbol);
+  const { symbol } = useParams();
 
-	const theProfile = profileData.filter(profile => profile.symbol === symbol);
+  const findStock = allStocks.filter((stock) => stock[0].symbol === symbol);
+  const theStock = findStock[0][0];
 
-	const variants = {
-		hidden: { opacity: 0.1 },
-		visible: { opacity: 1, transition: { duration: 0.5 } },
-	};
+  console.log("THE STOCK: ", theStock);
 
-	const inFromLeft = {
-		hidden: { opacity: 0, x: '-100%' },
-		visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
-	};
+  const findProfile = stockProfiles.filter(
+    (profile) => profile[0].symbol === symbol
+  );
+  const theProfile = findProfile[0][0];
+  console.log("THE PROFILE: ", theProfile);
 
-	const inFromRight = {
-		hidden: { opacity: 0, x: '50%' },
-		visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
-	};
+  const variants = {
+    hidden: { opacity: 0.1 },
+    visible: { opacity: 1, transition: { duration: 0.5 } },
+  };
 
-	const slideIn = {
-		hidden: { opacity: 0, y: '100%' },
-		visible: {
-			opacity: 1,
-			y: 0,
-			transition: { duration: 0.5, delay: 0.5 },
-		},
-	};
+  const inFromLeft = {
+    hidden: { opacity: 0, x: "-100%" },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  };
 
-	const fadeIn = {
-		hidden: { opacity: 0 },
-		visible: {
-			opacity: 1,
-			transition: { duration: 0.5, delay: 1 },
-		},
-	};
+  const inFromRight = {
+    hidden: { opacity: 0, x: "50%" },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  };
 
-	const navigate = useNavigate();
+  const slideIn = {
+    hidden: { opacity: 0, y: "100%" },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, delay: 0.5 },
+    },
+  };
 
-	return (
-		<StockContainer
-			variants={variants}
-			initial='hidden'
-			animate='visible'
-			exit='hidden'>
-			<h1>
-				{theStock[0].name} ({theStock[0].symbol})
-			</h1>
-			<StockContent>
-				<StockPerformance>
-					<InfoSection
-						className='mr-4'
-						variants={fadeIn}
-						initial='hidden'
-						animate='visible'>
-						<p className='bg-black w-fit p-4 rounded-xl'>
-							<img src={theProfile[0].image} />
-						</p>
-					</InfoSection>
+  const fadeIn = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.5, delay: 1 },
+    },
+  };
 
-					<InfoSection
-						variants={inFromLeft}
-						initial='hidden'
-						animate='visible'>
-						<span>Open: {theStock[0].open.toFixed(2)}</span>
-						<span>
-							Last Price: {theStock[0].previousClose.toFixed(2)}
-						</span>
-						<span>
-							Change:{' '}
-							<span
-								className={posOrNeg(
-									theStock[0].change.toFixed(2)
-								)}>
-								{theStock[0].change.toFixed(2)} (
-								{theStock[0].changesPercentage.toFixed(2)}
-								%)
-							</span>
-						</span>
-					</InfoSection>
+  return (
+    <StockContainer
+      variants={variants}
+      initial='hidden'
+      animate='visible'
+      exit='hidden'
+    >
+      <h1>
+        {theStock.name} ({theStock.symbol})
+      </h1>
+      <StockContent>
+        <StockPerformance>
+          <InfoSection
+            className='mr-4'
+            variants={fadeIn}
+            initial='hidden'
+            animate='visible'
+          >
+            <p className='bg-black w-fit p-4 rounded-xl shadow shadow-gray-700'>
+              <img src={theProfile.image} alt='profile-pic' className="w-[150px]" />
+            </p>
+          </InfoSection>
 
-					<InfoSection
-						variants={inFromRight}
-						initial='hidden'
-						animate='visible'>
-						<span>High: {theStock[0].dayHigh.toFixed(2)}</span>
-						<span>Low: {theStock[0].dayLow.toFixed(2)}</span>
-					</InfoSection>
-				</StockPerformance>
+          <InfoSection variants={inFromLeft} initial='hidden' animate='visible'>
+            <span>Open: {theStock.open.toFixed(2)}</span>
+            <span>Last Price: {theStock.previousClose.toFixed(2)}</span>
+            <span>
+              Change:{" "}
+              <span className={posOrNeg(theStock.change.toFixed(2))}>
+                {theStock.change.toFixed(2)} (
+                {theStock.changesPercentage.toFixed(2)}
+                %)
+              </span>
+            </span>
+          </InfoSection>
 
-				<hr />
-				<AboutSection
-					variants={slideIn}
-					initial='hidden'
-					animate='visible'
-					exit='hidden'>
-					<h3 className='mb-0'>About {theStock[0].name}</h3>
-					<NavButton to={theProfile[0].website} target='_blank'>
-						{theProfile[0].website}
-					</NavButton>
-					{theProfile[0].description}
-				</AboutSection>
+          <InfoSection
+            variants={inFromRight}
+            initial='hidden'
+            animate='visible'
+          >
+            <span>High: {theStock.dayHigh.toFixed(2)}</span>
+            <span>Low: {theStock.dayLow.toFixed(2)}</span>
+          </InfoSection>
+        </StockPerformance>
 
-				<ButtonSection
-					variants={fadeIn}
-					initial='hidden'
-					animate='visible'>
-					<BackButton to='back'>Back</BackButton>
-				</ButtonSection>
-			</StockContent>
-		</StockContainer>
-	);
+        <hr />
+        <AboutSection
+          variants={slideIn}
+          initial='hidden'
+          animate='visible'
+          exit='hidden'
+        >
+          <h3 className='text-[#7C7E80] mb-0'>About {theStock.name}</h3>
+          <NavButton to={theProfile.website} target='_blank'>
+            {theProfile.website}
+          </NavButton>
+          {theProfile.description}
+        </AboutSection>
+
+        <ButtonSection variants={fadeIn} initial='hidden' animate='visible'>
+          <BackButton to='back'>Back</BackButton>
+        </ButtonSection>
+      </StockContent>
+    </StockContainer>
+  );
 };
 
 export default Stock;

@@ -6,7 +6,7 @@ import StockList from '../../components/stock-list/stock-list.component';
 const Dashboard = () => {
 	return (
 		<DashboardContainer>
-				<h2 className='bg-[tan] p-2'>Most Active Stocks</h2>
+				<h3 className='header bg-[#3DBB9A] rounded-lg p-2'>Most Active Stocks</h3>
 				<StockList />
 		</DashboardContainer>
 	);

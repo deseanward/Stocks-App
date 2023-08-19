@@ -1,30 +1,40 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 
-import { StockContext } from '../../store/context/stock.context';
+import { StockContext } from "../../store/context/stock.context";
 
-import { StockNewsContainer, NewsItemContainer } from './stock-news.styles';
+import { BiLinkExternal } from "react-icons/bi";
+
+import { StockNewsContainer, NewsItemContainer } from "./stock-news.styles";
 
 const StockNews = () => {
-	const { newsData } = useContext(StockContext);
+  const { stockNews } = useContext(StockContext);
 
-	return (
-		<div className=''>
-			<h2 className='heading bg-[tan] p-2'>Trending</h2>
-			<StockNewsContainer>
-				<div className='content'>
-					{newsData ? (
-						newsData.map(news => {
-							return news.content.map((story, idx) => (
-								<div key={idx}>{story.title}</div>
-							));
-						})
-					) : (
-						<h3>Loading...</h3>
-					)}
-				</div>
-			</StockNewsContainer>
-		</div>
-	);
+  console.log('INSIDE STOCK NEWS: ', stockNews)
+
+  return (
+    <div className=''>
+      <h3 className='header rounded-lg heading bg-[#3DBB9A] p-2'>Trending</h3>
+      <StockNewsContainer>
+        <div className='content'>
+          {stockNews ? (
+            stockNews.map((story, idx) => (
+              <Link key={idx} to={story.url} target='blank'>
+                <NewsItemContainer className='text-sm hover:text-[tan]'>
+                  <span className='text-sm'>{story.title}</span>{" "}
+                  <span>
+                    <BiLinkExternal className='inline' id='arrow' />
+                  </span>
+                </NewsItemContainer>
+              </Link>
+            ))
+          ) : (
+            <h3>Loading...</h3>
+          )}
+        </div>
+      </StockNewsContainer>
+    </div>
+  );
 };
 
 export default StockNews;

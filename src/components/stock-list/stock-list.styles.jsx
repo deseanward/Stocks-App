@@ -20,11 +20,11 @@ export const StocksList = styled.section`
 `;
 
 export const StockListItem = styled.li`
-	transition: all 0.3s ease-in-out;
+	transition: all 0.2s ease-in-out;
 	display: grid;
 	grid-template-columns: 8fr 1fr 2fr;
 	border-top: 1px solid gray;
 	padding: 1em 0.5em;
 
-	${tw`active:bg-black hover:bg-black hover:text-[tan] hover:rounded`}
+	${tw`active:bg-black text-white hover:bg-[#383d46] hover:text-[tan] hover:rounded`}
 `;
