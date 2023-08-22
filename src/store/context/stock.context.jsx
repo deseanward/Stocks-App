@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 // Import the api call
 import { fetchStocks } from "../../api/stocks.api";
-import { fetchProfile } from "../../api/profile.api";
+// import { fetchProfile } from "../../api/profile.api";
 import { fetchNews } from "../../api/news.api";
 
 import stocks from "../../data";
@@ -11,8 +11,6 @@ export const StockContext = createContext({
   allStocks: [],
   stockProfiles: [],
   stockNews: [],
-  parsedStocks: [],
-  parsedProfiles: [],
   parseStock: () => {},
   parseProfile: () => {},
   dispatchStocks: () => {},
@@ -23,9 +21,6 @@ export const StockContext = createContext({
 });
 
 export const StockProvider = ({ children }) => {
-  const [parsedStocks, setParsedStocks] = useState([]);
-  const [parsedProfiles, setParsedProfiles] = useState([]);
-
   // For accessing  data saved in local storage
   const localStocks = JSON.parse(sessionStorage.getItem("allStocks"));
 
@@ -37,8 +32,7 @@ export const StockProvider = ({ children }) => {
   const [stockProfiles, setStockProfiles] = useState(localProfile);
   const [stockNews, setStockNews] = useState(localNews);
 
-
-  const apiKey2 = process.env.REACT_APP_STOCKS_API_KEY
+  const apiKey2 = process.env.REACT_APP_STOCKS_API_KEY;
 
   // API Key for News
   const newsApiKey = process.env.REACT_APP_STOCKS_NEWS_API_KEY;
@@ -71,8 +65,8 @@ export const StockProvider = ({ children }) => {
     return result;
   };
 
+  // Call to fetch the stocks from the api
   const fetchTheStocks = async () => {
-    console.log("INSIDE FETCH THE STOCKS");
     const fetchedStocks = [];
 
     try {
@@ -81,24 +75,20 @@ export const StockProvider = ({ children }) => {
       for (let x = 0; x < stocks.length; x++) {
         symbol = stocks[x].symbol;
 
-        console.log("Attempting Fetch...");
         let stock = await fetchStocks(
           `https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${apiKey2}`
         );
 
         fetchedStocks.push(stock);
       }
-      console.log(fetchedStocks);
       setAllStocks(fetchedStocks);
       sessionStorage.setItem("allStocks", JSON.stringify(fetchedStocks));
-
     } catch (error) {
       console.log("ERROR FETCHING STOCKS: ", error);
     }
   };
 
   const fetchTheProfiles = async () => {
-    console.log("INSIDE FETCH THE PROFILES");
     const profiles = [];
 
     try {
@@ -147,31 +137,61 @@ export const StockProvider = ({ children }) => {
 
   useEffect(() => {
     const getData = async () => {
-      // Get the Stocks
+      /**
+       * GET THE STOCKS
+       */
+      // Check to see if there's stock data saved in session storage
       if (sessionStorage.getItem("allStocks")) {
+
+        // If there's data, cache it in the variable 'gotSocks'
         const gotStocks = JSON.parse(sessionStorage.getItem("allStocks"));
+
+        // If the state of 'allStocks' is empty(false), set it the the contents of 'gotStocks'
         !allStocks && setAllStocks(gotStocks);
-        console.log("ALL STOCKS FROM USE EFFECT: ", allStocks);
       } else {
-        console.log("NO local DATA");
+        // If the is no session storage data, and 'allStocks' is empty, fetch the
+        // stock data from the api
         !allStocks && fetchTheStocks();
       }
 
-      // Get the Profiles
+      /**
+       * GET THE PROFILES
+       */
+      // Check to see if there's profile data saved in session storage
       if (sessionStorage.getItem("stockProfiles")) {
+
+        // If there's data, cache it in the variable 'gotNews'
         const gotProfiles = JSON.parse(sessionStorage.getItem("stockProfiles"));
+
+        // If the state of 'allStocks' is empty(false), set it the the contents of 'gotStocks'
         !stockProfiles && stockProfiles.push(gotProfiles);
-        console.log("ALL PROFILES FROM  USE EFFECT: ", stockProfiles);
-      } else !stockProfiles && fetchTheProfiles();
+      } else {
+        // If the is no session storage data, and 'allStocks' is empty, fetch the
+        // stock data from the api 
+        !stockProfiles && fetchTheProfiles();
+      }
 
+      /**
+       * GET THE NEWS
+       */
+       // Check to see if there's news data saved in session storage
       if (sessionStorage.getItem("stockNews")) {
-        const gotNews = JSON.parse(sessionStorage.getItem("stockNews"));
-        console.log("GOT THE NEWS: ", gotNews);
-        !stockNews && stockNews.push(gotNews);
-      } else !stockNews && fetchTheNews();
 
+        // If there's data, cache it in the variable 'gotNews'
+        const gotNews = JSON.parse(sessionStorage.getItem("stockNews"));
+
+        // If the state of 'allStocks' is empty(false), set it the the contents of 'gotStocks'
+        !stockNews && stockNews.push(gotNews);
+      } else {
+        // If the is no session storage data, and 'allStocks' is empty, fetch the
+        // stock data from the api
+        !stockNews && fetchTheNews(); 
+      }
     };
 
+    /**
+     * FETCH ALL DATA
+     */
     getData();
   }, []);
 
@@ -179,8 +199,6 @@ export const StockProvider = ({ children }) => {
     allStocks,
     stockProfiles,
     stockNews,
-    parsedStocks,
-    parsedProfiles,
     formatPriceChange,
     formatPercentage,
     posOrNeg,

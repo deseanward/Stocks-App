@@ -3,7 +3,7 @@ export const fetchStocks = async (req) => {
   try {
     const response = await fetch(url);
     const result = await response.json();
-    // console.log(result);
+    console.log("FROM API: ", result);
     return result;
   } catch (error) {
     console.error(error);
