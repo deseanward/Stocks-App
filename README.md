@@ -1,5 +1,5 @@
 # Per Scholas Picks
-[https://perscholas-picks.netlify.app/](Demo Link)
+[Demo Link](https://perscholas-picks.netlify.app/)
 
 <img width="960" alt="ps-picks-1" src="https://github.com/deseanward/Stocks-App/assets/139034534/cd14da38-f600-4d96-9cbd-90603378a9cd">
 ##
